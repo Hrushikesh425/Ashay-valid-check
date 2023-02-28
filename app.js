@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 
-const uri = 'mongodb+srv://hrushikeshgaware426:don12345@cluster0.u0ha3ku.mongodb.net/ValidCheck?retryWrites=true&w=majority'
+const uri = process.env.MONGO_URL
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const dataSchema = new mongoose.Schema({
