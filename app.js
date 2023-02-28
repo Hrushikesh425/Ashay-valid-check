@@ -1,16 +1,36 @@
-const MongoClient = require('mongodb').MongoClient;
+const express = require('express');
+const mongoose = require("mongoose");
 
-const url = 'mongodb+srv://admin:admin@cluster0.hxvgo.mongodb.net/?retryWrites=true&w=majority'
+const app = express();
 
-const dbname = 'user';
+const uri = 'mongodb+srv://hrushikeshgaware426:don12345@cluster0.u0ha3ku.mongodb.net/ValidCheck?retryWrites=true&w=majority'
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const client = new MongoClient(url);
+const dataSchema = new mongoose.Schema({
+    name: String,
+    CSN: String
+});
 
-client.connect(function(err){
-  console.log("Connection is sucessfully");
+const MyModel = mongoose.model('user-data', dataSchema,'user-data')
 
-  const db = client.db(dbname);
+app.get('/api/:CSN', (req, res) => {
+    const CSN = req.params.CSN;
+    
+    MyModel.find({ CSN:CSN }).select('-_id name Approved').exec((err,users) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else if (users.length === 0){
+            res.status(404).send('CSN not found');
+        }else{
+            res.send(users);
+            console.log(users);
+        }
+    })
+})
 
-  client.close()
+const port = 4000;
 
+app.listen(port, () => {
+    console.log("Server started on port " + port);
 })
