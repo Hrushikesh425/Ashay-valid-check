@@ -23,7 +23,7 @@ app.get('/api/:CSN', (req, res) => {
             console.log(err);
             res.status(500).send(err);
         } else if (users.length === 0){
-            res.status(404).send('CSN not found');
+            res.status(404).send('');
         }else{
             res.send(users);
             console.log(users);
