@@ -28,7 +28,7 @@ app.get('/api/:CSN', (req, res) => {
             // res.send(`"[$users]"`);
             // console.log(users);
             const formattedUsers = JSON.stringify(users).replace(/"_id":"[a-z0-9]*"/g, '').replace(/"/g, '\\"');
-      res.send(`"[${formattedUsers}]"`);
+      res.send(formattedUsers);
         }
     })
 })
