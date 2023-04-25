@@ -25,8 +25,10 @@ app.get('/api/:CSN', (req, res) => {
         } else if (users.length === 0){
             res.status(404).send('');
         }else{
-            res.send(users);
-            console.log(users);
+            // res.send(`"[$users]"`);
+            // console.log(users);
+            const formattedUsers = JSON.stringify(users).replace(/"_id":"[a-z0-9]*"/g, '').replace(/"/g, '\\"');
+      res.send(`"[${formattedUsers}]"`);
         }
     })
 })
